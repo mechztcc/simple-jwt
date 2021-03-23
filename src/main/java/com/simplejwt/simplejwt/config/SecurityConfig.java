@@ -11,19 +11,15 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-    
-    private String[] PUBLIC_MATCHERS = {
-        "/notice"
-    };
+
+    private String[] PUBLIC_MATCHERS = { "/notice" };
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        
-        http.authorizeRequests()
-            .antMatchers("/").permitAll().and().authorizeRequests()
-            .antMatchers("/h2-console/**").permitAll();
-            http.csrf().disable();
+        http.authorizeRequests().antMatchers("/").permitAll().and()
+                .authorizeRequests().antMatchers("/h2-console/**").permitAll();
+        http.csrf().disable();
         http.headers().frameOptions().disable();
     }
 

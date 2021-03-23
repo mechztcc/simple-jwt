@@ -1,9 +1,11 @@
 package com.simplejwt.simplejwt.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import com.simplejwt.simplejwt.domain.enums.Profile;
+
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 public class User {
@@ -16,15 +18,24 @@ public class User {
 
     private String password;
 
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "PROFILES")
+    private Set<Integer> profiles = new HashSet<>();
+
+
 
     public User() {
+        addProfile(Profile.CLIENT);
     }
 
     public User(Integer id, String email, String password) {
         this.id = id;
         this.email = email;
         this.password = password;
+        addProfile(Profile.CLIENT);
+
     }
+
 
     public Integer getId() {
         return this.id;
@@ -50,6 +61,13 @@ public class User {
         this.password = password;
     }
 
+    public Set<Profile> getProfiles() {
+        return profiles.stream().map(x -> Profile.toEnum(x)).collect(Collectors.toSet());
+    }
+
+    public void addProfile(Profile profile) {
+        profiles.add(profile.getCod());
+    }
 
     @Override
 	public int hashCode() {

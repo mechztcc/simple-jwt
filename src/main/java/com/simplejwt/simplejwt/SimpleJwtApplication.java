@@ -1,6 +1,7 @@
 package com.simplejwt.simplejwt;
 
 import com.simplejwt.simplejwt.domain.User;
+import com.simplejwt.simplejwt.domain.enums.Profile;
 import com.simplejwt.simplejwt.repositories.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +25,11 @@ public class SimpleJwtApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		User user1 = new User(null, "user@email.com", bcrypt.encode("1234"));
+		User user1 = new User(null, "user1@email.com", bcrypt.encode("123"));
+		User user2 = new User(null, "user2@email.com", bcrypt.encode("123"));
+		user2.addProfile(Profile.ADM);
 		userRepository.save(user1);
+		userRepository.save(user2);
 	}
 
 }
